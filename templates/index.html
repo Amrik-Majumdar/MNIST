@@ -1,1 +1,43 @@
-<!-- HTML placeholder -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digit Recognizer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Digit Recognizer</h1>
+    <p>Take a picture or use your camera. Our AI will guess the digit and say it out loud!</p>
+  </header>
+
+  <section id="instructions">
+    <h2>How to Use</h2>
+    <ul>
+      <li>Allow camera access</li>
+      <li>Point at a handwritten digit</li>
+      <li>See and hear the prediction</li>
+      <li>Adjust voice speed/pitch as needed</li>
+    </ul>
+  </section>
+
+  <section id="app">
+    <video id="camera" autoplay playsinline></video>
+    <canvas id="canvas" width="28" height="28" hidden></canvas>
+    <div id="result"></div>
+    <div id="controls">
+      <label>Speech Speed: <input type="range" id="speed" min="0.5" max="2" step="0.1" value="1"></label>
+      <label>Speech Pitch: <input type="range" id="pitch" min="0" max="2" step="0.1" value="1"></label>
+      <button onclick="predict()">Predict Digit</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>Created for learning purposes | Open Source</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="app.js"></script>
+</body>
+</html>
