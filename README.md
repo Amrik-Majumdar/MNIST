@@ -27,7 +27,7 @@ mnist-digit-recognition/
 └── DEPLOYMENT_GUIDE.md # Quick setup instructions
 ```
 
-## 🛠️ Quick Setup Guide
+## Quick Setup Guide
 
 ### Step 1: Create GitHub Repository
 
