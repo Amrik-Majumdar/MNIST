@@ -17,9 +17,9 @@
   "total_size_kb": 52.28,
   "deployment_ready": true,
   "created_timestamp": "2025-06-24T01:48:53.646771",
-  "deployment_url": "https://YOUR_USERNAME.github.io/mnist-digit-recognition/",
+  "deployment_url": "https://Amrik-Majumdar.github.io/MNIST/",
   "next_steps": [
-    "Create GitHub repository named 'mnist-digit-recognition'",
+    "Create GitHub repository named 'MNIST'",
     "Upload all files to repository root directory",
     "Enable GitHub Pages in repository settings",
     "Wait 2-5 minutes for deployment",
