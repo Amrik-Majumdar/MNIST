@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNIST Digit Recognition - TensorFlow.js</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 MNIST Digit Recognition</h1>
+            <p>Draw a digit or upload an image to see AI prediction in real-time</p>
+        </header>
+
+        <main>
+            <div class="app-grid">
+                <!-- Drawing Canvas Section -->
+                <div class="canvas-section">
+                    <h2>Draw a Digit</h2>
+                    <div class="canvas-container">
+                        <canvas id="drawingCanvas" width="280" height="280"></canvas>
+                        <div class="canvas-controls">
+                            <button id="clearCanvas" class="btn btn-secondary">Clear Canvas</button>
+                            <button id="predictDrawing" class="btn btn-primary">Predict Drawing</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Upload Section -->
+                <div class="upload-section">
+                    <h2>Upload Image</h2>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-content">
+                            <div class="upload-icon">📁</div>
+                            <p>Drag & drop an image here</p>
+                            <p class="upload-subtext">or click to browse</p>
+                            <input type="file" id="fileInput" accept="image/*" hidden>
+                        </div>
+                    </div>
+                    <div class="uploaded-image-container" id="uploadedImageContainer" style="display: none;">
+                        <img id="uploadedImage" alt="Uploaded digit">
+                        <button id="predictUpload" class="btn btn-primary">Predict Upload</button>
+                    </div>
+                </div>
+
+                <!-- Prediction Results Section -->
+                <div class="results-section">
+                    <h2>Prediction Results</h2>
+                    <div class="prediction-container">
+                        <div class="prediction-main">
+                            <div class="predicted-digit" id="predictedDigit">?</div>
+                            <div class="confidence" id="confidence">Ready to predict</div>
+                        </div>
+                        <div class="probability-bars" id="probabilityBars">
+                            <!-- Probability bars will be generated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model Info Section -->
+                <div class="info-section">
+                    <h2>Model Information</h2>
+                    <div class="model-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Model Status:</span>
+                            <span class="stat-value" id="modelStatus">Loading...</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Architecture:</span>
+                            <span class="stat-value">Neural Network</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Input Size:</span>
+                            <span class="stat-value">28×28 pixels</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Classes:</span>
+                            <span class="stat-value">0-9 digits</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Built with TensorFlow.js • Hosted on GitHub Pages</p>
+            <p>
+                <a href="https://github.com/tensorflow/tfjs" target="_blank">TensorFlow.js</a> |
+                <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Loading AI Model...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="weights.js"></script>
+    <script src="model.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
