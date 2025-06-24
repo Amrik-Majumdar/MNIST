@@ -1,8 +1,8 @@
-# 🧠 MNIST Digit Recognition - GitHub Pages
+# MNIST Digit Recognition - GitHub Pages
 
 A complete handwritten digit recognition web application powered by TensorFlow.js, deployable on GitHub Pages for free hosting.
 
-## 🌟 Features
+## Features
 
 - **Real-time Digit Recognition**: Draw digits on canvas or upload images
 - **TensorFlow.js Integration**: Client-side neural network processing
@@ -12,14 +12,7 @@ A complete handwritten digit recognition web application powered by TensorFlow.j
 - **Fallback Recognition**: Pattern matching when TensorFlow.js fails
 - **Enhanced Neural Network**: Pre-trained weights optimized for digit recognition
 
-## 🚀 Live Demo
-
-Once deployed, your app will be available at:
-```
-https://YOUR_USERNAME.github.io/mnist-digit-recognition/
-```
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 mnist-digit-recognition/
@@ -43,7 +36,7 @@ mnist-digit-recognition/
    - Name: `mnist-digit-recognition`
    - Description: "Handwritten digit recognition with TensorFlow.js"
    - Make it **Public** (required for GitHub Pages)
-   - Initialize with README: ✅
+   - Initialize with README
 
 2. **Clone Repository**:
    ```bash
@@ -79,7 +72,7 @@ mnist-digit-recognition/
    - Check the green checkmark in the "Actions" tab
    - Your site will be live at: `https://YOUR_USERNAME.github.io/mnist-digit-recognition/`
 
-## 🎯 How to Use
+## How to Use
 
 ### Drawing Recognition
 1. **Draw a digit** (0-9) on the canvas using your mouse or finger
@@ -93,7 +86,7 @@ mnist-digit-recognition/
 3. **Click "Predict Upload"** to analyze the image
 4. **View results** with confidence percentages
 
-## 🧠 Model Architecture
+## Model Architecture
 
 - **Input Layer**: 28×28 pixel images (784 features)
 - **Hidden Layer 1**: 128 neurons with ReLU activation
@@ -103,7 +96,7 @@ mnist-digit-recognition/
 - **Enhanced Features**: Digit-specific pattern recognition
 - **Fallback System**: Pattern matching when TensorFlow.js unavailable
 
-## 🔧 Technical Details
+## Technical Details
 
 ### Technologies Used
 - **Frontend**: HTML5, CSS3, JavaScript (ES6+)
@@ -113,11 +106,11 @@ mnist-digit-recognition/
 - **CSS Grid/Flexbox**: Responsive layout
 
 ### Browser Compatibility
-- ✅ Chrome 60+
-- ✅ Firefox 55+
-- ✅ Safari 11+
-- ✅ Edge 79+
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
+-  Chrome 60+
+-  Firefox 55+
+-  Safari 11+
+-  Edge 79+
+-  Mobile browsers (iOS Safari, Chrome Mobile)
 
 ### Performance
 - **Model Size**: ~400KB compressed
@@ -126,7 +119,7 @@ mnist-digit-recognition/
 - **Memory Usage**: ~50MB peak
 - **Accuracy**: Enhanced with digit-specific patterns
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -151,18 +144,18 @@ mnist-digit-recognition/
 - Center digits in the canvas
 - Try uploading clearer images
 
-## 🔒 Privacy & Security
+## Privacy & Security
 
 - **No Data Collection**: All processing happens in your browser
 - **No Server Communication**: Completely client-side application
 - **No Cookies**: No tracking or persistent storage
 - **Open Source**: All code is transparent and auditable
 
-## 📄 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **TensorFlow.js Team**: For the amazing ML framework
 - **GitHub Pages**: For free static hosting
@@ -171,6 +164,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-**Built with ❤️ using TensorFlow.js and hosted on GitHub Pages**
-
-*Ready for deployment to GitHub Pages!*
+**Built using TensorFlow.js and hosted on GitHub Pages**
