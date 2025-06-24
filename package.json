@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YOUR_USERNAME/mnist-digit-recognition.git"
+    "url": "git+https://github.com/Amrik-Majumdar/MNIST.git"
   },
   "keywords": [
     "mnist",
@@ -31,12 +31,12 @@
     "canvas",
     "image-processing"
   ],
-  "author": "Your Name <your.email@example.com>",
+  "author": "Your Name <majumdar.amrik@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/mnist-digit-recognition/issues"
+    "url": "https://github.com/Amrik-Majumdar/MNIST/issues"
   },
-  "homepage": "https://YOUR_USERNAME.github.io/mnist-digit-recognition/",
+  "homepage": "https://Amrik-Majumdar.github.io/MNIST/",
   "dependencies": {},
   "devDependencies": {},
   "engines": {
