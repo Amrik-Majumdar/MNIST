@@ -1,0 +1,59 @@
+{
+  "name": "mnist-digit-recognition",
+  "version": "1.0.0",
+  "description": "Handwritten digit recognition web application using TensorFlow.js",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "python3 -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "test": "echo \"No tests specified\" && exit 0",
+    "build": "echo \"Static site - no build required\" && exit 0",
+    "deploy": "echo \"Deploy to GitHub Pages via repository settings\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amrik-Majumdar/MNIST.git"
+  },
+  "keywords": [
+    "mnist",
+    "digit-recognition",
+    "tensorflow-js",
+    "machine-learning",
+    "neural-network",
+    "javascript",
+    "github-pages",
+    "web-app",
+    "ai",
+    "computer-vision",
+    "handwriting-recognition",
+    "deep-learning",
+    "canvas",
+    "image-processing"
+  ],
+  "author": "Your Name <majumdar.amrik@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Amrik-Majumdar/MNIST/issues"
+  },
+  "homepage": "https://Amrik-Majumdar.github.io/MNIST/",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "files": [
+    "index.html",
+    "style.css",
+    "script.js",
+    "model.js",
+    "weights.js",
+    "README.md"
+  ]
+}
