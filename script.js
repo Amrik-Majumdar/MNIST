@@ -36,7 +36,12 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 // Initialize drawing canvas
 function initializeCanvas() {
+    console.log("Initializing canvas...");
     canvas = document.getElementById('drawingCanvas');
+    if (!canvas) {
+        console.error("drawingCanvas not found!");
+        return;
+    }
     ctx = canvas.getContext('2d');
     
     // Set canvas properties
@@ -59,9 +64,14 @@ function initializeCanvas() {
     canvas.addEventListener('touchmove', handleTouch);
     canvas.addEventListener('touchend', stopDrawing);
     
-    // Button event listeners
-    document.getElementById('clearCanvas').addEventListener('click', clearCanvas);
-    document.getElementById('predictDrawing').addEventListener('click', predictDrawing);
+    // Button event listeners (with debug)
+    const clearBtn = document.getElementById('clearCanvas');
+    if (!clearBtn) console.error("clearCanvas button not found!");
+    else clearBtn.addEventListener('click', clearCanvas);
+
+    const predictBtn = document.getElementById('predictDrawing');
+    if (!predictBtn) console.error("predictDrawing button not found!");
+    else predictBtn.addEventListener('click', predictDrawing);
 }
 
 // Initialize file upload
@@ -392,3 +402,4 @@ if (typeof module !== 'undefined' && module.exports) {
         resetPredictionDisplay
     };
 }
+
