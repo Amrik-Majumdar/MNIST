@@ -3,25 +3,29 @@ let canvas, ctx;
 let isDrawing = false;
 let currentModel = null;
 
-// Initialize the application
 document.addEventListener('DOMContentLoaded', async function() {
     initializeCanvas();
     initializeFileUpload();
     initializeProbabilityBars();
+
+    // Always show the loading overlay at start
+    showLoadingOverlay();
     updateModelStatus('loading');
-    showLoadingOverlay(); 
+
+    // Set up a 5-second timeout to hide the loader if model hasn't loaded
     let loaderTimeout = setTimeout(() => {
         hideLoadingOverlay();
+        // Optionally, show error if the model didn't load
         if (!currentModel || !currentModel.isLoaded) {
             updateModelStatus('error');
         }
     }, 5000);
 
     const modelLoaded = await initializeModel();
-    
+
     if (modelLoaded) {
         currentModel = model;
-        clearTimeout(loaderTimeout);
+        clearTimeout(loaderTimeout); // Cancel the timeout if model loads in time
         hideLoadingOverlay();
     } else {
         updateModelStatus('error');
