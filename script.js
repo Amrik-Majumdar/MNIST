@@ -8,17 +8,24 @@ document.addEventListener('DOMContentLoaded', async function() {
     initializeCanvas();
     initializeFileUpload();
     initializeProbabilityBars();
-    
-    // Initialize model
     updateModelStatus('loading');
+    showLoadingOverlay(); 
+    let loaderTimeout = setTimeout(() => {
+        hideLoadingOverlay();
+        if (!currentModel || !currentModel.isLoaded) {
+            updateModelStatus('error');
+        }
+    }, 5000);
+
     const modelLoaded = await initializeModel();
     
     if (modelLoaded) {
         currentModel = model;
+        clearTimeout(loaderTimeout);
         hideLoadingOverlay();
     } else {
-        console.error('Failed to initialize model');
         updateModelStatus('error');
+        clearTimeout(loaderTimeout);
         hideLoadingOverlay();
     }
 });
