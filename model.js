@@ -1,59 +1,20 @@
 // Custom Neural Network Implementation for MNIST
 class DNNModel {
     constructor() {
-        this.sizes = [784, 128, 64, 10]; // Input, Hidden1, Hidden2, Output
+        this.sizes = [784, 128, 64, 10];
         this.params = {};
         this.isLoaded = false;
     }
 
-    // Initialize or load model weights
     async loadModel() {
         try {
-            // Check if weights are available from weights.js
             if (typeof modelWeights !== 'undefined' && modelWeights) {
                 this.params = modelWeights;
                 this.isLoaded = true;
                 console.log('Model weights loaded successfully');
                 return true;
             }
-            
-            // If no pre-trained weights, initialize random weights
-            this.initializeWeights();
-            console.log('Model initialized with random weights');
-            return true;
-        } catch (error) {
-            console.error('Error loading model:', error);
-            return false;
-        }
-    }
-
-    // Initialize random weights (Xavier initialization)
-    initializeWeights() {
-        const [input_layer, hidden_1, hidden_2, output_layer] = this.sizes;
-        
-        this.params = {
-            'W1': this.randomMatrix(hidden_1, input_layer, Math.sqrt(1.0 / hidden_1)),
-            'W2': this.randomMatrix(hidden_2, hidden_1, Math.sqrt(1.0 / hidden_2)),
-            'W3': this.randomMatrix(output_layer, hidden_2, Math.sqrt(1.0 / output_layer))
-        };
-        
-        this.isLoaded = true;
-    }
-
-    // Create random matrix with given dimensions and scale
-    randomMatrix(rows, cols, scale) {
-        const matrix = [];
-        for (let i = 0; i < rows; i++) {
-            matrix[i] = [];
-            for (let j = 0; j < cols; j++) {
-                // Box-Muller transform for normal distribution
-                const u1 = Math.random();
-                const u2 = Math.random();
-                const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-                matrix[i][j] = z0 * scale;
-            }
-        }
-        return matrix;
+        } 
     }
 
     // Sigmoid activation function
