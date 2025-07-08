@@ -371,7 +371,18 @@ function updateModelStatus(status) {
         }
     }
 }
-
+async loadModel() {
+    console.log("Loading model weights...");
+    if (typeof modelWeights !== 'undefined' && modelWeights) {
+        console.log("Model weights found and loaded.");
+        this.params = modelWeights;
+        this.isLoaded = true;
+        return true;
+    } else {
+        console.error("Model weights not found!");
+        return false;
+    }
+}
 // Utility functions
 function downloadCanvas() {
     const link = document.createElement('a');
@@ -402,4 +413,3 @@ if (typeof module !== 'undefined' && module.exports) {
         resetPredictionDisplay
     };
 }
-
