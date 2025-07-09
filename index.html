@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MNIST Digit Recognition - TensorFlow.js</title>
+    <title>MNIST Digit Recognition - Neural Network</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Loading AI Model...</p>
+        </div>
+    </div>
+
     <div class="container">
         <header>
             <h1>🧠 MNIST Digit Recognition</h1>
@@ -18,17 +25,19 @@
         <main>
             <div class="app-grid">
                 <!-- Drawing Canvas Section -->
-                <div class="canvas-section">
-                  <h2>Draw a Digit</h2>
-                  <div class="canvas-controls">
-                    <canvas id="drawingCanvas" width="280" height="280"></canvas>
-                    <button id="clearCanvas" class="btn btn-secondary">Clear Canvas</button>
-                    <button id="predictDrawing" class="btn btn-primary">Predict Drawing</button>
-                  </div>
+                <div class="canvas-section section">
+                    <h2>Draw a Digit</h2>
+                    <div class="canvas-container">
+                        <canvas id="drawingCanvas" width="280" height="280"></canvas>
+                    </div>
+                    <div class="canvas-controls">
+                        <button id="clearCanvas" class="btn btn-secondary">Clear Canvas</button>
+                        <button id="predictDrawing" class="btn btn-primary">Predict Drawing</button>
+                    </div>
                 </div>
 
                 <!-- File Upload Section -->
-                <div class="upload-section">
+                <div class="upload-section section">
                     <h2>Upload Image</h2>
                     <div class="upload-area" id="uploadArea">
                         <div class="upload-content">
@@ -45,7 +54,7 @@
                 </div>
 
                 <!-- Prediction Results Section -->
-                <div class="results-section">
+                <div class="results-section section">
                     <h2>Prediction Results</h2>
                     <div class="prediction-container">
                         <div class="prediction-main">
@@ -59,16 +68,16 @@
                 </div>
 
                 <!-- Model Info Section -->
-                <div class="info-section">
+                <div class="info-section section">
                     <h2>Model Information</h2>
                     <div class="model-stats">
                         <div class="stat-item">
                             <span class="stat-label">Model Status:</span>
-                            <span class="stat-value" id="modelStatus">Loading...</span>
+                            <span class="stat-value loading" id="modelStatus">Loading...</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">Architecture:</span>
-                            <span class="stat-value">Neural Network</span>
+                            <span class="stat-value">784 → 128 → 64 → 10</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">Input Size:</span>
@@ -85,11 +94,10 @@
 
         <footer>
             <p>Made by Amrik Majumdar. Hosted on Github.</p>
-            
         </footer>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts - Loading your existing files -->
     <script src="weights.js"></script>
     <script src="model.js"></script>
     <script src="script.js"></script>
