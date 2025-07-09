@@ -117,7 +117,7 @@ class DNNModel {
             // Normalize to 0-1 range if not already
             const max = Math.max(...processedData);
             if (max > 1) {
-                processedData = processedData.map(val => val / 255.0);
+                processedData = processedData.map(val => (val / 255.0) * 0.99 + 0.01);
             }
 
             // Get predictions
