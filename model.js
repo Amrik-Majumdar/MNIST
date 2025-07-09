@@ -9,36 +9,17 @@ class DNNModel {
     async loadModel() {
         try {
             console.log("Loading model weights...");
-            
-            // Check if modelWeights is available
             if (typeof modelWeights !== 'undefined' && modelWeights) {
-                console.log("Model weights found and loaded.");
                 this.params = modelWeights;
                 this.isLoaded = true;
                 return true;
             } else {
-                console.error("Model weights not found! Make sure weights.js is loaded.");
-                
-                // Create dummy weights for demonstration purposes
-                console.log("Creating dummy weights for demonstration...");
-                this.createDummyWeights();
-                this.isLoaded = true;
-                return true;
+                throw new Error("Model weights not found! Make sure weights.js is loaded.");
             }
         } catch (error) {
             console.error("Error loading model:", error);
             return false;
         }
-    }
-
-    // Create dummy weights for demonstration when real weights aren't available
-    createDummyWeights() {
-        // Initialize with random weights for demonstration
-        this.params = {
-            W1: this.randomMatrix(128, 784),
-            W2: this.randomMatrix(64, 128),
-            W3: this.randomMatrix(10, 64)
-        };
     }
 
     // Helper function to create random matrix
