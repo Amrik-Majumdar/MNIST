@@ -4,18 +4,25 @@ let isDrawing = false;
 let currentModel = null;
 
 document.addEventListener('DOMContentLoaded', async function() {
+    console.log("DOM loaded, initializing...");
+    
     initializeCanvas();
     initializeFileUpload();
     initializeProbabilityBars();
 
-    // Always show the loading overlay at start
-    showLoadingOverlay();
+    // Show loading overlay if it exists
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    if (loadingOverlay) {
+        showLoadingOverlay();
+    }
     updateModelStatus('loading');
 
     // Set up a 5-second timeout to hide the loader if model hasn't loaded
     let loaderTimeout = setTimeout(() => {
-        hideLoadingOverlay();
-        // Optionally, show error if the model didn't load
+        if (loadingOverlay) {
+            hideLoadingOverlay();
+        }
+        // Show error if the model didn't load
         if (!currentModel || !currentModel.isLoaded) {
             updateModelStatus('error');
         }
@@ -25,12 +32,17 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     if (modelLoaded) {
         currentModel = model;
-        clearTimeout(loaderTimeout); // Cancel the timeout if model loads in time
-        hideLoadingOverlay();
+        clearTimeout(loaderTimeout);
+        if (loadingOverlay) {
+            hideLoadingOverlay();
+        }
+        updateModelStatus('ready');
     } else {
         updateModelStatus('error');
         clearTimeout(loaderTimeout);
-        hideLoadingOverlay();
+        if (loadingOverlay) {
+            hideLoadingOverlay();
+        }
     }
 });
 
@@ -53,25 +65,33 @@ function initializeCanvas() {
     // Clear canvas
     clearCanvas();
     
-    // Add event listeners
+    // Add event listeners for mouse
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseout', stopDrawing);
     
-    // Touch events for mobile
-    canvas.addEventListener('touchstart', handleTouch);
-    canvas.addEventListener('touchmove', handleTouch);
-    canvas.addEventListener('touchend', stopDrawing);
+    // Add event listeners for touch
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+    canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
     
-    // Button event listeners (with debug)
+    // Button event listeners
     const clearBtn = document.getElementById('clearCanvas');
-    if (!clearBtn) console.error("clearCanvas button not found!");
-    else clearBtn.addEventListener('click', clearCanvas);
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearCanvas);
+        console.log("Clear button listener added");
+    } else {
+        console.error("clearCanvas button not found!");
+    }
 
     const predictBtn = document.getElementById('predictDrawing');
-    if (!predictBtn) console.error("predictDrawing button not found!");
-    else predictBtn.addEventListener('click', predictDrawing);
+    if (predictBtn) {
+        predictBtn.addEventListener('click', predictDrawing);
+        console.log("Predict button listener added");
+    } else {
+        console.error("predictDrawing button not found!");
+    }
 }
 
 // Initialize file upload
@@ -81,8 +101,16 @@ function initializeFileUpload() {
     const uploadedImageContainer = document.getElementById('uploadedImageContainer');
     const uploadedImage = document.getElementById('uploadedImage');
     
+    if (!uploadArea || !fileInput) {
+        console.error("Upload elements not found!");
+        return;
+    }
+    
     // Click to browse
-    uploadArea.addEventListener('click', () => fileInput.click());
+    uploadArea.addEventListener('click', () => {
+        console.log("Upload area clicked");
+        fileInput.click();
+    });
     
     // File input change
     fileInput.addEventListener('change', handleFileSelect);
@@ -93,12 +121,22 @@ function initializeFileUpload() {
     uploadArea.addEventListener('dragleave', handleDragLeave);
     
     // Predict upload button
-    document.getElementById('predictUpload').addEventListener('click', predictUpload);
+    const predictUploadBtn = document.getElementById('predictUpload');
+    if (predictUploadBtn) {
+        predictUploadBtn.addEventListener('click', predictUpload);
+    }
 }
 
 // Initialize probability bars
 function initializeProbabilityBars() {
     const container = document.getElementById('probabilityBars');
+    if (!container) {
+        console.error("probabilityBars container not found!");
+        return;
+    }
+    
+    // Clear existing content
+    container.innerHTML = '';
     
     for (let i = 0; i < 10; i++) {
         const barElement = document.createElement('div');
@@ -116,8 +154,14 @@ function initializeProbabilityBars() {
 
 // Canvas drawing functions
 function startDrawing(e) {
+    console.log("Start drawing");
     isDrawing = true;
-    draw(e);
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    ctx.beginPath();
+    ctx.moveTo(x, y);
 }
 
 function draw(e) {
@@ -129,29 +173,51 @@ function draw(e) {
     
     ctx.lineTo(x, y);
     ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(x, y);
 }
 
 function stopDrawing() {
     if (!isDrawing) return;
+    console.log("Stop drawing");
     isDrawing = false;
     ctx.beginPath();
 }
 
 // Touch event handling
-function handleTouch(e) {
+function handleTouchStart(e) {
     e.preventDefault();
     const touch = e.touches[0];
-    const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 'mousemove', {
-        clientX: touch.clientX,
-        clientY: touch.clientY
-    });
-    canvas.dispatchEvent(mouseEvent);
+    const rect = canvas.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+}
+
+function handleTouchMove(e) {
+    if (!isDrawing) return;
+    e.preventDefault();
+    
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    
+    ctx.lineTo(x, y);
+    ctx.stroke();
+}
+
+function handleTouchEnd(e) {
+    e.preventDefault();
+    if (!isDrawing) return;
+    isDrawing = false;
+    ctx.beginPath();
 }
 
 // Clear canvas
 function clearCanvas() {
+    console.log("Clearing canvas");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -163,6 +229,7 @@ function clearCanvas() {
 
 // File upload handling
 function handleFileSelect(e) {
+    console.log("File selected");
     const file = e.target.files[0];
     if (file && file.type.startsWith('image/')) {
         displayUploadedImage(file);
@@ -191,6 +258,11 @@ function handleDragLeave(e) {
 function displayUploadedImage(file) {
     const uploadedImage = document.getElementById('uploadedImage');
     const uploadedImageContainer = document.getElementById('uploadedImageContainer');
+    
+    if (!uploadedImage || !uploadedImageContainer) {
+        console.error("Upload image elements not found!");
+        return;
+    }
     
     const reader = new FileReader();
     reader.onload = function(e) {
@@ -266,8 +338,10 @@ function canvasToArray() {
 
 // Predict drawing
 async function predictDrawing() {
+    console.log("Predict drawing clicked");
+    
     if (!currentModel || !currentModel.isLoaded) {
-        alert('Model not loaded yet. Please wait.');
+        alert('Model not loaded yet. Please wait or reload the page.');
         return;
     }
     
@@ -285,13 +359,15 @@ async function predictDrawing() {
 
 // Predict upload
 async function predictUpload() {
+    console.log("Predict upload clicked");
+    
     if (!currentModel || !currentModel.isLoaded) {
-        alert('Model not loaded yet. Please wait.');
+        alert('Model not loaded yet. Please wait or reload the page.');
         return;
     }
     
     const uploadedImage = document.getElementById('uploadedImage');
-    if (!uploadedImage.src) {
+    if (!uploadedImage || !uploadedImage.src) {
         alert('Please upload an image first.');
         return;
     }
@@ -313,42 +389,76 @@ function displayPrediction(result) {
     const { digit, confidence, probabilities } = result;
     
     // Update main prediction display
-    document.getElementById('predictedDigit').textContent = digit;
-    document.getElementById('confidence').textContent = `${(confidence * 100).toFixed(1)}% confidence`;
+    const predictedDigitEl = document.getElementById('predictedDigit');
+    const confidenceEl = document.getElementById('confidence');
+    
+    if (predictedDigitEl) {
+        predictedDigitEl.textContent = digit;
+        // Add animation
+        predictedDigitEl.classList.add('pulse');
+        setTimeout(() => {
+            predictedDigitEl.classList.remove('pulse');
+        }, 2000);
+    }
+    
+    if (confidenceEl) {
+        confidenceEl.textContent = `${(confidence * 100).toFixed(1)}% confidence`;
+    }
     
     // Update probability bars
     for (let i = 0; i < 10; i++) {
         const probability = probabilities[i] * 100;
-        document.getElementById(`bar-${i}`).style.width = `${probability}%`;
-        document.getElementById(`value-${i}`).textContent = `${probability.toFixed(1)}%`;
+        const barEl = document.getElementById(`bar-${i}`);
+        const valueEl = document.getElementById(`value-${i}`);
+        
+        if (barEl) {
+            barEl.style.width = `${probability}%`;
+        }
+        if (valueEl) {
+            valueEl.textContent = `${probability.toFixed(1)}%`;
+        }
     }
-    
-    // Add animation
-    document.getElementById('predictedDigit').classList.add('pulse');
-    setTimeout(() => {
-        document.getElementById('predictedDigit').classList.remove('pulse');
-    }, 2000);
 }
 
 // Reset prediction display
 function resetPredictionDisplay() {
-    document.getElementById('predictedDigit').textContent = '?';
-    document.getElementById('confidence').textContent = 'Ready to predict';
+    const predictedDigitEl = document.getElementById('predictedDigit');
+    const confidenceEl = document.getElementById('confidence');
+    
+    if (predictedDigitEl) {
+        predictedDigitEl.textContent = '?';
+    }
+    if (confidenceEl) {
+        confidenceEl.textContent = 'Ready to predict';
+    }
     
     // Reset probability bars
     for (let i = 0; i < 10; i++) {
-        document.getElementById(`bar-${i}`).style.width = '0%';
-        document.getElementById(`value-${i}`).textContent = '0%';
+        const barEl = document.getElementById(`bar-${i}`);
+        const valueEl = document.getElementById(`value-${i}`);
+        
+        if (barEl) {
+            barEl.style.width = '0%';
+        }
+        if (valueEl) {
+            valueEl.textContent = '0%';
+        }
     }
 }
 
 // Loading overlay functions
 function showLoadingOverlay() {
-    document.getElementById('loadingOverlay').classList.remove('hidden');
+    const overlay = document.getElementById('loadingOverlay');
+    if (overlay) {
+        overlay.classList.remove('hidden');
+    }
 }
 
 function hideLoadingOverlay() {
-    document.getElementById('loadingOverlay').classList.add('hidden');
+    const overlay = document.getElementById('loadingOverlay');
+    if (overlay) {
+        overlay.classList.add('hidden');
+    }
 }
 
 // Update model status
@@ -371,25 +481,6 @@ function updateModelStatus(status) {
         }
     }
 }
-async loadModel() {
-    console.log("Loading model weights...");
-    if (typeof modelWeights !== 'undefined' && modelWeights) {
-        console.log("Model weights found and loaded.");
-        this.params = modelWeights;
-        this.isLoaded = true;
-        return true;
-    } else {
-        console.error("Model weights not found!");
-        return false;
-    }
-}
-// Utility functions
-function downloadCanvas() {
-    const link = document.createElement('a');
-    link.download = 'digit_drawing.png';
-    link.href = canvas.toDataURL();
-    link.click();
-}
 
 // Add keyboard shortcuts
 document.addEventListener('keydown', function(e) {
@@ -403,6 +494,14 @@ document.addEventListener('keydown', function(e) {
         predictDrawing();
     }
 });
+
+// Utility functions
+function downloadCanvas() {
+    const link = document.createElement('a');
+    link.download = 'digit_drawing.png';
+    link.href = canvas.toDataURL();
+    link.click();
+}
 
 // Export functions for testing
 if (typeof module !== 'undefined' && module.exports) {
